@@ -4,8 +4,10 @@ namespace SmallBank.Model
     public class Account
     {
         private int accountID;
-        private int balance;
-        private decimal interest;
+        private static int accountCount;
+
+        private double balance;
+        private double interest;
         private string name;
         private enum AccountNames
         {
@@ -28,13 +30,13 @@ namespace SmallBank.Model
             set => name = value;
         }
 
-        public int Balance
+        public double Balance
         {
             get { return balance; }
             set { balance = value; }
         }
 
-        public decimal Interest
+        public double Interest
         {
             get
             {
@@ -47,6 +49,8 @@ namespace SmallBank.Model
         }
         public Account()
         {
+            accountCount++;
+            accountID = accountCount;
             balance = 0;
         }
     }

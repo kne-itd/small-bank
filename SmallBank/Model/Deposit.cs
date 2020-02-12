@@ -3,7 +3,7 @@ namespace SmallBank.Model
 {
     public class Deposit : Account
     {
-        public Deposit()
+        public Deposit():base()
         {
         }
     }
