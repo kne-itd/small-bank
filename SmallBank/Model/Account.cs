@@ -6,7 +6,7 @@ namespace SmallBank.Model
         private int accountID;
         private static int accountCount;
 
-        private double balance;
+        protected double balance;
         private double interest;
         private string name;
         private enum AccountNames
@@ -33,7 +33,25 @@ namespace SmallBank.Model
         public double Balance
         {
             get { return balance; }
-            set { balance = value; }
+            set
+            {
+                if (this is Loan)
+                {
+                    if (value < balance)
+                    {
+                        throw new Exception("Der kan ikke hæves penge på en udlånskonto.");
+                    }
+                }
+                else if( this is Deposit)
+                {
+                    if (value < ((Deposit)this).CreditLimit)
+                    {
+                        throw new Exception("Der kan ikke hæves over kreditgrænsen");
+                    }
+                }
+                balance = value;
+                
+            }
         }
 
         public double Interest

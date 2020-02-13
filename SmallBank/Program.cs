@@ -71,15 +71,29 @@ namespace SmallBank
             Console.WriteLine(aMenu);
             int.TryParse(Console.ReadLine(), out int currentAccountID);
             currentAccount = FindAccountById(currentAccountID);
-            Console.WriteLine($"Hvilket beløb øsker du at {action}? ");
+            Console.WriteLine($"Hvilket beløb ønsker du at {action}? ");
             double.TryParse(Console.ReadLine(), out double amount);
             if (action == "hæve")
             {
-                currentAccount.Balance -= amount;
+                try
+                {
+                    currentAccount.Balance -= amount;
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
             else
             {
-                currentAccount.Balance += amount;
+                try
+                {
+                    currentAccount.Balance += amount;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
             
         }
@@ -162,8 +176,15 @@ namespace SmallBank
                 Console.WriteLine($"{c.Address.StreetAddress} {c.Address.HouseNumber}, {c.Address.Zip} {c.Address.City}");
                 foreach (Account account in c.Accounts)
                 {
-                    Console.WriteLine($"   {account.AccountID}: {account.Name} interest: {account.Interest}" +
-                        $" {account.Balance}");
+                    Console.WriteLine($"   {account.AccountID}: {account.Name} interest: {account.Interest} {account.Balance}");
+                    if (account is Loan)
+                    {
+                        Console.WriteLine($"   Startbeløb: {((Loan)account).InitialBalance}");
+                    }
+                    else if ( account is Deposit )
+                    {
+                        Console.WriteLine($"   Limit: {((Deposit)account).CreditLimit}");
+                    }
                 }
             }
         }
